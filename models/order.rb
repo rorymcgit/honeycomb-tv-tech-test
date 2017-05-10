@@ -1,4 +1,8 @@
+require './models/discount'
+
 class Order
+  include Discount
+
   COLUMNS = {
     broadcaster: 20,
     delivery: 8,
@@ -10,17 +14,15 @@ class Order
   def initialize(material)
     self.material = material
     self.items = []
-    @express_delivery_counter = 0
   end
 
   def add(broadcaster, delivery)
-    @express_delivery_counter += 1 if delivery.name == :express
-    update_express_delivery_price
     items << [broadcaster, delivery]
+    update_express_delivery_price(delivery) if multiple_express_deliveries?(items)
   end
 
   def total_cost
-    eligible_for_bulk_discount? ? pre_discount_cost - pre_discount_cost / 10.0 : pre_discount_cost
+    eligible_for_bulk_discount?(pre_discount_cost) ? pre_discount_cost * 0.90 : pre_discount_cost
   end
 
   def output
@@ -45,24 +47,9 @@ class Order
 
   private
 
-  def eligible_for_bulk_discount?
-    pre_discount_cost > 30
-  end
-
-  def multiple_express_deliveries?
-    @express_delivery_counter > 1
-  end
-
   def pre_discount_cost
     items.inject(0) do |memo, (_, delivery)|
-      delivery.price = 15 if delivery.name == :express && multiple_express_deliveries?
       memo += delivery.price
-    end
-  end
-
-  def update_express_delivery_price
-    items.each do |(_, delivery)|
-      delivery.price = 15.0 if delivery.name == :express && multiple_express_deliveries?
     end
   end
 

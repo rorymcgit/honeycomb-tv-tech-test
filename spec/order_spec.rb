@@ -1,55 +1,22 @@
-require './models/broadcaster'
-require './models/delivery'
-require './models/material'
 require './models/order'
 
 describe Order do
   subject { Order.new material }
-  let(:material) { Material.new 'HON/TEST001/010' }
-  let(:standard_delivery) { Delivery.new(:standard, 10) }
-  let(:express_delivery) { Delivery.new(:express, 20) }
+  let(:material) { double 'material' }
+
+  before do
+    allow(material).to receive(:identifier) { 'HON/TEST001/010' }
+  end
+
+  context 'Discount module' do
+    it 'is included in the Order class' do
+      expect((class << subject; self; end).included_modules.first).to eq(Discount)
+    end
+  end
 
   context 'empty' do
     it 'costs nothing' do
       expect(subject.total_cost).to eq(0)
-    end
-  end
-
-  context 'with items' do
-    it 'returns the total cost of all items' do
-      broadcaster_1 = Broadcaster.new(1, 'Viacom')
-      broadcaster_2 = Broadcaster.new(2, 'Disney')
-
-      subject.add broadcaster_1, standard_delivery
-      subject.add broadcaster_2, express_delivery
-
-      expect(subject.total_cost).to eq(30)
-    end
-  end
-
-  context 'bulk discount' do
-    it 'applies a 10% discount on orders over $30' do
-      broadcaster_1 = Broadcaster.new(1, 'Viacom')
-      broadcaster_2 = Broadcaster.new(2, 'Disney')
-      broadcaster_3 = Broadcaster.new(3, 'Discovery')
-
-      subject.add broadcaster_1, standard_delivery
-      subject.add broadcaster_2, standard_delivery
-      subject.add broadcaster_3, express_delivery
-
-      expect(subject.total_cost).to eq(36)
-    end
-  end
-
-  context 'multiple express delivery' do
-    it 'reduces cost of each express delivery to $15' do
-      broadcaster_1 = Broadcaster.new(1, 'Viacom')
-      broadcaster_2 = Broadcaster.new(2, 'Disney')
-
-      subject.add broadcaster_1, express_delivery
-      subject.add broadcaster_2, express_delivery
-
-      expect(subject.total_cost).to eq(30)
     end
   end
 end
