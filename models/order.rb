@@ -17,7 +17,7 @@ class Order
   end
 
   def total_cost
-    items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
+    eligible_for_bulk_discount? ? pre_discount_cost - pre_discount_cost / 10.0 : pre_discount_cost
   end
 
   def output
@@ -41,6 +41,16 @@ class Order
   end
 
   private
+
+  def pre_discount_cost
+    items.inject(0) do |memo, (_, delivery)|
+      memo += delivery.price
+    end
+  end
+
+  def eligible_for_bulk_discount?
+    pre_discount_cost > 30
+  end
 
   def output_separator
     @output_separator ||= COLUMNS.map { |_, width| '-' * width }.join(' | ')

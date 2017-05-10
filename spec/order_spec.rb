@@ -26,4 +26,18 @@ describe Order do
       expect(subject.total_cost).to eq(30)
     end
   end
+
+  context 'bulk discount' do
+    it 'applies a 10% discount on orders over $30' do
+      broadcaster_1 = Broadcaster.new(1, 'Viacom')
+      broadcaster_2 = Broadcaster.new(2, 'Disney')
+      broadcaster_3 = Broadcaster.new(3, 'Discovery')
+
+      subject.add broadcaster_1, standard_delivery
+      subject.add broadcaster_2, standard_delivery
+      subject.add broadcaster_3, express_delivery
+
+      expect(subject.total_cost).to eq(36)
+    end
+  end
 end
