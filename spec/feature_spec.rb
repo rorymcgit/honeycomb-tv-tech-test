@@ -4,7 +4,8 @@ require './models/material'
 require './models/order'
 
 describe 'Feature' do
-  let(:order) { Order.new material }
+  let(:order) { Order.new material, discount }
+  let(:discount) { Discount.new }
   let(:material) { Material.new 'HON/TEST001/010' }
   let(:standard_delivery) { Delivery.new(:standard, 10) }
   let(:express_delivery) { Delivery.new(:express, 20) }
@@ -36,6 +37,10 @@ describe 'Feature' do
   end
 
   context 'multiple express delivery' do
+    it 'reduces an express delivery cost to 15' do
+      expect{discount.update_express_delivery_price(express_delivery)}.to change{express_delivery.price}.by(-5)
+    end
+
     it 'reduces cost of each express delivery to $15', :b do
       broadcaster_1 = Broadcaster.new(1, 'Viacom')
       broadcaster_2 = Broadcaster.new(2, 'Disney')

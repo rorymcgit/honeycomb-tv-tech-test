@@ -8,6 +8,8 @@ require './models/order'
 standard_delivery = Delivery.new(:standard, 10.0)
 express_delivery = Delivery.new(:express, 20.0)
 
+discount = Discount.new
+
 broadcaster_1 = Broadcaster.new(1, 'Viacom')
 broadcaster_2 = Broadcaster.new(2, 'Disney')
 broadcaster_3 = Broadcaster.new(3, 'Discovery')
@@ -18,7 +20,7 @@ broadcaster_7 = Broadcaster.new(7, 'Horse and Country')
 
 material = Material.new('WNP/SWCL001/010')
 
-order = Order.new(material)
+order = Order.new(material, discount)
 
 order.add broadcaster_1, standard_delivery
 order.add broadcaster_2, standard_delivery

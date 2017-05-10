@@ -1,7 +1,6 @@
 require './models/discount'
 
 class Order
-  include Discount
 
   COLUMNS = {
     broadcaster: 20,
@@ -9,20 +8,28 @@ class Order
     price: 8
   }.freeze
 
-  attr_accessor :material, :items
+  attr_accessor :material, :items, :discount
 
-  def initialize(material)
+  def initialize(material, discount)
     self.material = material
+    self.discount = discount
     self.items = []
   end
 
   def add(broadcaster, delivery)
     items << [broadcaster, delivery]
-    update_express_delivery_price(delivery) if multiple_express_deliveries?(items)
+    if delivery.name == :express && multiple_express_deliveries?
+      discount.update_express_delivery_price(delivery)
+    end
   end
 
   def total_cost
-    eligible_for_bulk_discount?(pre_discount_cost) ? pre_discount_cost * 0.90 : pre_discount_cost
+    if discount.eligible_for_bulk_discount?(pre_discount_cost)
+      @discount_applied = true
+      pre_discount_cost * (1 - discount.bulk_reduction)
+    else
+      pre_discount_cost
+    end
   end
 
   def output
@@ -42,15 +49,24 @@ class Order
 
       result << output_separator
       result << "Total: $#{total_cost}"
+      result << bulk_discount_message if @discount_applied
     end.join("\n")
   end
 
   private
 
+  def bulk_discount_message
+    "Bulk order discount of #{(discount.bulk_reduction * 100).to_i}% applied."
+  end
+
   def pre_discount_cost
     items.inject(0) do |memo, (_, delivery)|
       memo += delivery.price
     end
+  end
+
+  def multiple_express_deliveries?
+    items.count { |(_, delivery)| delivery.name == :express } > 1
   end
 
   def output_separator
