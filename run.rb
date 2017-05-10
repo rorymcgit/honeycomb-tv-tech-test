@@ -4,6 +4,7 @@ require './models/broadcaster'
 require './models/delivery'
 require './models/material'
 require './models/order'
+require './models/discount'
 
 standard_delivery = Delivery.new(:standard, 10.0)
 express_delivery = Delivery.new(:express, 20.0)

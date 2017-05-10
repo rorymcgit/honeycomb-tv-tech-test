@@ -37,11 +37,11 @@ describe 'Feature' do
   end
 
   context 'multiple express delivery' do
-    it 'reduces an express delivery cost to 15' do
-      expect{discount.update_express_delivery_price(express_delivery)}.to change{express_delivery.price}.by(-5)
+    it 'reduces an express delivery cost to $15' do
+      expect{discount.discount_express_delivery_price(express_delivery)}.to change{express_delivery.price}.to(15)
     end
 
-    it 'reduces cost of each express delivery to $15', :b do
+    it 'calculates order with discounted express deliveries' do
       broadcaster_1 = Broadcaster.new(1, 'Viacom')
       broadcaster_2 = Broadcaster.new(2, 'Disney')
 

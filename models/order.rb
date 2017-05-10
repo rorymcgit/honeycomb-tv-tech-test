@@ -1,5 +1,3 @@
-require './models/discount'
-
 class Order
 
   COLUMNS = {
@@ -18,14 +16,14 @@ class Order
 
   def add(broadcaster, delivery)
     items << [broadcaster, delivery]
-    if delivery.name == :express && multiple_express_deliveries?
-      discount.update_express_delivery_price(delivery)
+    if delivery.name == :express && multiple_deliveries?(:express)
+      discount.discount_express_delivery_price(delivery)
     end
   end
 
   def total_cost
     if discount.eligible_for_bulk_discount?(pre_discount_cost)
-      @discount_applied = true
+      @bulk_discount_applied = true
       pre_discount_cost * (1 - discount.bulk_reduction)
     else
       pre_discount_cost
@@ -49,7 +47,7 @@ class Order
 
       result << output_separator
       result << "Total: $#{total_cost}"
-      result << bulk_discount_message if @discount_applied
+      result << bulk_discount_message if @bulk_discount_applied
     end.join("\n")
   end
 
@@ -65,8 +63,8 @@ class Order
     end
   end
 
-  def multiple_express_deliveries?
-    items.count { |(_, delivery)| delivery.name == :express } > 1
+  def multiple_deliveries?(delivery_type)
+    items.count { |(_, delivery)| delivery.name == delivery_type } > 1
   end
 
   def output_separator

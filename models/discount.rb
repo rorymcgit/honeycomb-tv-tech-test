@@ -14,7 +14,7 @@ class Discount
     cost > bulk_threshold
   end
 
-  def update_express_delivery_price(delivery)
+  def discount_express_delivery_price(delivery)
     delivery.price = express_discount_price
   end
 
