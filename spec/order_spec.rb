@@ -40,4 +40,16 @@ describe Order do
       expect(subject.total_cost).to eq(36)
     end
   end
+
+  context 'multiple express delivery' do
+    it 'reduces cost of each express delivery to $15' do
+      broadcaster_1 = Broadcaster.new(1, 'Viacom')
+      broadcaster_2 = Broadcaster.new(2, 'Disney')
+
+      subject.add broadcaster_1, express_delivery
+      subject.add broadcaster_2, express_delivery
+
+      expect(subject.total_cost).to eq(30)
+    end
+  end
 end

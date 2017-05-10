@@ -10,9 +10,12 @@ class Order
   def initialize(material)
     self.material = material
     self.items = []
+    @express_delivery_counter = 0
   end
 
   def add(broadcaster, delivery)
+    @express_delivery_counter += 1 if delivery.name == :express
+    update_express_delivery_price
     items << [broadcaster, delivery]
   end
 
@@ -42,14 +45,25 @@ class Order
 
   private
 
+  def eligible_for_bulk_discount?
+    pre_discount_cost > 30
+  end
+
+  def multiple_express_deliveries?
+    @express_delivery_counter > 1
+  end
+
   def pre_discount_cost
     items.inject(0) do |memo, (_, delivery)|
+      delivery.price = 15 if delivery.name == :express && multiple_express_deliveries?
       memo += delivery.price
     end
   end
 
-  def eligible_for_bulk_discount?
-    pre_discount_cost > 30
+  def update_express_delivery_price
+    items.each do |(_, delivery)|
+      delivery.price = 15.0 if delivery.name == :express && multiple_express_deliveries?
+    end
   end
 
   def output_separator
