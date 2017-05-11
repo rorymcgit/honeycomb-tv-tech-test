@@ -3,10 +3,10 @@ class Discount
   attr_accessor :bulk_threshold, :bulk_reduction_pct, :express_discount_price
 
   def initialize(bulk_threshold = 30,
-                 bulk_reduction_pct = 0.1,
+                 bulk_reduction_pct = 10,
                  express_discount_price = 15)
     self.bulk_threshold = bulk_threshold
-    self.bulk_reduction_pct = bulk_reduction_pct
+    self.bulk_reduction_pct = bulk_reduction_pct / 100.0
     self.express_discount_price = express_discount_price
   end
 

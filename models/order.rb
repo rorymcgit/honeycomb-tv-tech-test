@@ -31,7 +31,7 @@ class Order
     [].tap do |result|
       result << "Order for #{material.identifier}:"
 
-      result << COLUMNS.map { |name, width| name.to_s.ljust(width) }.join(' | ')
+      result << header
       result << output_separator
 
       items.each do |(broadcaster, delivery)|
@@ -43,22 +43,25 @@ class Order
       end
 
       result << output_separator
-      result << "Total: $#{total_cost}"
       result << discount.bulk_discount_message if discount.eligible_for_bulk_discount?(no_discount_cost)
       result << discount.multiple_express_discount_message if multiple_deliveries?(:express)
+      result << output_separator
+      result << "Total: $#{total_cost}"
     end.join("\n")
   end
 
   private
 
   def no_discount_cost
-    items.inject(0) do |memo, (_, delivery)|
-      memo += delivery.price
-    end
+    items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
   end
 
   def multiple_deliveries?(delivery_type)
     items.count { |(_, delivery)| delivery.name == delivery_type } > 1
+  end
+
+  def header
+    COLUMNS.map { |name, width| name.to_s.ljust(width) }.join(' | ')
   end
 
   def output_separator
