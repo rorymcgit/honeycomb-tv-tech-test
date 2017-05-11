@@ -2,11 +2,11 @@ require './models/discount'
 
 describe Discount do
   subject { Discount.new }
-  let(:delivery) { double 'delivery' }
+  let(:exress_delivery) { double 'exress_delivery' }
 
   before do
-    allow(delivery).to receive(:price) { 20 }
-    allow(delivery).to receive(:name) { :express }
+    allow(exress_delivery).to receive(:price) { 20 }
+    allow(exress_delivery).to receive(:name) { :express }
   end
 
   context 'eligible for bulk discount' do

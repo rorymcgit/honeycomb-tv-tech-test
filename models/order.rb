@@ -1,10 +1,6 @@
-class Order
+require './models/printer'
 
-  COLUMNS = {
-    broadcaster: 20,
-    delivery: 8,
-    price: 8
-  }.freeze
+class Order
 
   attr_accessor :material, :items, :discount
 
@@ -23,26 +19,8 @@ class Order
     discount.eligible_for_bulk_discount?(subtotal) ? discount.reduce_total_price(subtotal) : subtotal
   end
 
-  def output
-    [].tap do |result|
-      result << "Order for #{material.identifier}:"
-
-      result << header
-      result << output_separator
-
-      items.each do |(broadcaster, delivery)|
-        result << [
-          broadcaster.name.ljust(COLUMNS[:broadcaster]),
-          delivery.name.to_s.ljust(COLUMNS[:delivery]),
-          ("$#{delivery.price}").ljust(COLUMNS[:price])
-        ].join(' | ')
-      end
-
-      result << output_separator
-      result << "Total: $#{total_cost}"
-      result << discount.bulk_discount_message if discount.bulk_discount_applied
-      result << discount.multiple_express_discount_message if discount.express_delivery_discounted
-    end.join("\n")
+  def output(printer = Printer.new)
+    printer.invoice(self, material, discount)
   end
 
   private
@@ -53,13 +31,5 @@ class Order
 
   def multiple_deliveries?(delivery_type)
     items.count { |(_, delivery)| delivery.name == delivery_type } > 1
-  end
-
-  def header
-    COLUMNS.map { |name, width| name.to_s.ljust(width) }.join(' | ')
-  end
-
-  def output_separator
-    COLUMNS.map { |_, width| '-' * width }.join(' | ')
   end
 end
