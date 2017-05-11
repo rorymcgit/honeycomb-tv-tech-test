@@ -15,7 +15,7 @@ class Discount
   end
 
   def reduce_express_price(delivery)
-    delivery.price = express_discount_price
+    delivery.price = express_discount_price if delivery.name == :express
   end
 
   def bulk_discount_message

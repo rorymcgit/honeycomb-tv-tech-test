@@ -16,14 +16,11 @@ class Order
 
   def add(broadcaster, delivery)
     items << [broadcaster, delivery]
-    if delivery.name == :express && multiple_deliveries?(:express)
-      discount.reduce_express_price(delivery)
-    end
+    discount.reduce_express_price(delivery) if multiple_deliveries?(:express)
   end
 
   def total_cost
     if discount.eligible_for_bulk_discount?(no_discount_cost)
-      @bulk_discount_applied = true
       no_discount_cost * (1 - discount.bulk_reduction_pct)
     else
       no_discount_cost
@@ -47,7 +44,7 @@ class Order
 
       result << output_separator
       result << "Total: $#{total_cost}"
-      result << discount.bulk_discount_message if @bulk_discount_applied
+      result << discount.bulk_discount_message if discount.eligible_for_bulk_discount?(no_discount_cost)
       result << discount.multiple_express_discount_message if multiple_deliveries?(:express)
     end.join("\n")
   end
