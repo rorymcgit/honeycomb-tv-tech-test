@@ -21,7 +21,7 @@ describe Printer do
     @invoice_output = subject.invoice(order, material, discount)
   end
 
-  context 'prints the invoice' do
+  context 'the invoice' do
     it 'contains the material ID' do
       expect(@invoice_output).to include(material.identifier)
     end

@@ -12,4 +12,11 @@ describe Discount do
       expect(subject.eligible_for_bulk_discount?(20)).to eq(false)
     end
   end
+
+  context 'reduce total price' do
+    it 'applies a 10% discount' do
+      expect(subject.reduce_total_price(50)).to be(45.0)
+    end
+
+  end
 end

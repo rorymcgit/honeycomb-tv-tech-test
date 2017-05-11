@@ -1,15 +1,12 @@
 class Discount
 
-  HUNDRED_PCT = 100.0.freeze
-
   attr_accessor :bulk_threshold, :bulk_reduction_pct, :express_discount_price
-  attr_reader :bulk_discount_applied, :express_delivery_discounted
 
   def initialize(bulk_threshold = 30,
                  bulk_reduction_pct = 10,
                  express_discount_price = 15)
     self.bulk_threshold = bulk_threshold
-    self.bulk_reduction_pct = bulk_reduction_pct / HUNDRED_PCT
+    self.bulk_reduction_pct = bulk_reduction_pct / 100.0
     self.express_discount_price = express_discount_price
   end
 
@@ -28,11 +25,11 @@ class Discount
   end
 
   def bulk_discount_message
-    "* Bulk order discount of #{(bulk_reduction_pct * HUNDRED_PCT).to_i}% applied. *" if bulk_discount_applied
+    "* Bulk order discount of #{(bulk_reduction_pct * 100.0).to_i}% applied. *" if @bulk_discount_applied
   end
 
   def multiple_express_discount_message
-    "* Express deliveries reduced to $#{express_discount_price} each. *" if express_delivery_discounted
+    "* Express deliveries reduced to $#{express_discount_price} each. *" if @express_delivery_discounted
   end
 
 end
