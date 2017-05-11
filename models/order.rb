@@ -20,11 +20,7 @@ class Order
   end
 
   def total_cost
-    if discount.eligible_for_bulk_discount?(no_discount_cost)
-      no_discount_cost * (1 - discount.bulk_reduction_pct)
-    else
-      no_discount_cost
-    end
+    discount.eligible_for_bulk_discount?(subtotal) ? discount.reduce_total_price(subtotal) : subtotal
   end
 
   def output
@@ -43,16 +39,15 @@ class Order
       end
 
       result << output_separator
-      result << discount.bulk_discount_message if discount.eligible_for_bulk_discount?(no_discount_cost)
-      result << discount.multiple_express_discount_message if multiple_deliveries?(:express)
-      result << output_separator
       result << "Total: $#{total_cost}"
+      result << discount.bulk_discount_message if discount.bulk_discount_applied
+      result << discount.multiple_express_discount_message if discount.express_delivery_discounted
     end.join("\n")
   end
 
   private
 
-  def no_discount_cost
+  def subtotal
     items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
   end
 
@@ -65,6 +60,6 @@ class Order
   end
 
   def output_separator
-    @output_separator ||= COLUMNS.map { |_, width| '-' * width }.join(' | ')
+    COLUMNS.map { |_, width| '-' * width }.join(' | ')
   end
 end
