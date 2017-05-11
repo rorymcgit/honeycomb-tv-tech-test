@@ -22,11 +22,11 @@ class Order
   end
 
   def total_cost
-    if discount.eligible_for_bulk_discount?(pre_discount_cost)
+    if discount.eligible_for_bulk_discount?(no_discount_cost)
       @bulk_discount_applied = true
-      pre_discount_cost * (1 - discount.bulk_reduction_pct)
+      no_discount_cost * (1 - discount.bulk_reduction_pct)
     else
-      pre_discount_cost
+      no_discount_cost
     end
   end
 
@@ -37,7 +37,7 @@ class Order
       result << COLUMNS.map { |name, width| name.to_s.ljust(width) }.join(' | ')
       result << output_separator
 
-      items.each_with_index do |(broadcaster, delivery), index|
+      items.each do |(broadcaster, delivery)|
         result << [
           broadcaster.name.ljust(COLUMNS[:broadcaster]),
           delivery.name.to_s.ljust(COLUMNS[:delivery]),
@@ -48,12 +48,13 @@ class Order
       result << output_separator
       result << "Total: $#{total_cost}"
       result << discount.bulk_discount_message if @bulk_discount_applied
+      result << discount.multiple_express_discount_message if multiple_deliveries?(:express)
     end.join("\n")
   end
 
   private
 
-  def pre_discount_cost
+  def no_discount_cost
     items.inject(0) do |memo, (_, delivery)|
       memo += delivery.price
     end

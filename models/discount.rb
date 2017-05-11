@@ -22,4 +22,8 @@ class Discount
     "Bulk order discount of #{(bulk_reduction_pct * 100).to_i}% applied."
   end
 
+  def multiple_express_discount_message
+    "Express deliveries reduced to $#{express_discount_price} each."
+  end
+
 end
