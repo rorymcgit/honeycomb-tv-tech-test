@@ -14,13 +14,13 @@ describe Printer do
     allow(broadcaster).to receive(:name) { 'Viacom' }
     allow(standard_delivery).to receive(:name) { :standard }
     allow(standard_delivery).to receive(:price) { 10 }
-    allow(order).to receive(:total_cost) { 20 }
-    allow(order).to receive(:items) { [[broadcaster, standard_delivery]] }
     allow(discount).to receive(:bulk_discount_message) { nil }
     allow(discount).to receive(:multiple_express_discount_message) { nil }
+    allow(order).to receive(:total_cost) { 20 }
+    allow(order).to receive(:items) { [[broadcaster, standard_delivery]] }
     @invoice_output = subject.invoice(order, material, discount)
   end
-  
+
   context 'prints the invoice' do
     it 'contains the material ID' do
       expect(@invoice_output).to include(material.identifier)

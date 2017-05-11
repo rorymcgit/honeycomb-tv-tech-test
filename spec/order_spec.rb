@@ -8,16 +8,12 @@ describe Order do
   let(:standard_delivery) { double 'delivery' }
 
   before do
-    allow(discount).to receive(:bulk_threshold) { 30 }
-    allow(discount).to receive(:bulk_reduction_pct) { 0.1 }
-    allow(discount).to receive(:express_discount_price) { 15 }
-    allow(discount).to receive(:eligible_for_bulk_discount?) { false }
-    allow(discount).to receive(:multiple_express_deliveries?) { false }
     allow(material).to receive(:identifier) { 'HON/TEST001/010' }
     allow(broadcaster).to receive(:id) { 1 }
     allow(broadcaster).to receive(:name) { 'Viacom' }
     allow(standard_delivery).to receive(:name) { :standard }
     allow(standard_delivery).to receive(:price) { 10 }
+    allow(discount).to receive(:eligible_for_bulk_discount?) { false }
   end
 
   context 'empty' do
