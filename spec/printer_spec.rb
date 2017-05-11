@@ -18,23 +18,24 @@ describe Printer do
     allow(order).to receive(:items) { [[broadcaster, standard_delivery]] }
     allow(discount).to receive(:bulk_discount_message) { nil }
     allow(discount).to receive(:multiple_express_discount_message) { nil }
+    @invoice_output = subject.invoice(order, material, discount)
   end
-
+  
   context 'prints the invoice' do
     it 'contains the material ID' do
-      expect(subject.invoice(order, material, discount)).to include(material.identifier)
+      expect(@invoice_output).to include(material.identifier)
     end
     it 'contains the total cost' do
-      expect(subject.invoice(order, material, discount)).to include("#{order.total_cost}")
+      expect(@invoice_output).to include("#{order.total_cost}")
     end
     it 'contains the broadcaster name' do
-      expect(subject.invoice(order, material, discount)).to include(broadcaster.name)
+      expect(@invoice_output).to include(broadcaster.name)
     end
     it 'contains the delivery name' do
-      expect(subject.invoice(order, material, discount)).to include(standard_delivery.name.to_s)
+      expect(@invoice_output).to include(standard_delivery.name.to_s)
     end
     it 'contains the delivery price' do
-      expect(subject.invoice(order, material, discount)).to include("#{standard_delivery.price}")
+      expect(@invoice_output).to include("#{standard_delivery.price}")
     end
   end
 end
