@@ -9,7 +9,7 @@ describe Order do
 
   before do
     allow(discount).to receive(:bulk_threshold) { 30 }
-    allow(discount).to receive(:bulk_reduction) { 0.1 }
+    allow(discount).to receive(:bulk_reduction_pct) { 0.1 }
     allow(discount).to receive(:express_discount_price) { 15 }
     allow(discount).to receive(:eligible_for_bulk_discount?) { false }
     allow(discount).to receive(:multiple_express_deliveries?) { false }

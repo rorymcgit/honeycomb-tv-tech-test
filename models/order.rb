@@ -17,14 +17,14 @@ class Order
   def add(broadcaster, delivery)
     items << [broadcaster, delivery]
     if delivery.name == :express && multiple_deliveries?(:express)
-      discount.discount_express_delivery_price(delivery)
+      discount.reduce_express_price(delivery)
     end
   end
 
   def total_cost
     if discount.eligible_for_bulk_discount?(pre_discount_cost)
       @bulk_discount_applied = true
-      pre_discount_cost * (1 - discount.bulk_reduction)
+      pre_discount_cost * (1 - discount.bulk_reduction_pct)
     else
       pre_discount_cost
     end
@@ -47,15 +47,11 @@ class Order
 
       result << output_separator
       result << "Total: $#{total_cost}"
-      result << bulk_discount_message if @bulk_discount_applied
+      result << discount.bulk_discount_message if @bulk_discount_applied
     end.join("\n")
   end
 
   private
-
-  def bulk_discount_message
-    "Bulk order discount of #{(discount.bulk_reduction * 100).to_i}% applied."
-  end
 
   def pre_discount_cost
     items.inject(0) do |memo, (_, delivery)|

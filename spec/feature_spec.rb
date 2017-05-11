@@ -38,7 +38,7 @@ describe 'Feature' do
 
   context 'multiple express delivery' do
     it 'reduces an express delivery cost to $15' do
-      expect{discount.discount_express_delivery_price(express_delivery)}.to change{express_delivery.price}.to(15)
+      expect{discount.reduce_express_price(express_delivery)}.to change{express_delivery.price}.to(15)
     end
 
     it 'calculates order with discounted express deliveries' do

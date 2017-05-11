@@ -1,12 +1,12 @@
 class Discount
 
-  attr_accessor :bulk_threshold, :bulk_reduction, :express_discount_price
+  attr_accessor :bulk_threshold, :bulk_reduction_pct, :express_discount_price
 
   def initialize(bulk_threshold = 30,
-                 bulk_reduction = 0.1,
+                 bulk_reduction_pct = 0.1,
                  express_discount_price = 15)
     self.bulk_threshold = bulk_threshold
-    self.bulk_reduction = bulk_reduction
+    self.bulk_reduction_pct = bulk_reduction_pct
     self.express_discount_price = express_discount_price
   end
 
@@ -14,8 +14,12 @@ class Discount
     cost > bulk_threshold
   end
 
-  def discount_express_delivery_price(delivery)
+  def reduce_express_price(delivery)
     delivery.price = express_discount_price
+  end
+
+  def bulk_discount_message
+    "Bulk order discount of #{(bulk_reduction_pct * 100).to_i}% applied."
   end
 
 end
