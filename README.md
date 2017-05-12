@@ -60,7 +60,7 @@ I focussed on reusability, for example the method checking for multiple_deliveri
 
 I considered putting a guard clause on the add method to prevent duplication of a broadcaster, however I felt that this was off spec.  
 
-I understand I have set the bulk discount threshold to be over >$30 and not >=$30. I followed the spec's wording literally in this case.
+I understand I have set the bulk discount threshold to be >$30 and not >=$30. I followed the spec's wording literally in this case.
 
 ---
 ---
