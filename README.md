@@ -17,7 +17,7 @@ After reading the spec several times, following the flow of the existing code, p
 - There are 4 discount parameters:
   - Bulk discount threshold: `$30`
   - The percentage reduction a bulk discount provides: `10%`
-  - How many deliveries provide a reduction in the express delivery price: `>1`
+  - What number of deliveries will provide a reduction in the express delivery price: `>1`
   - What price to thereby reduce the express delivery to: `$15`
 - The price of the express delivery already added to the order must be altered when a second one is added
 - There should be information on the invoice output detailing what discounts, if any, were applied
