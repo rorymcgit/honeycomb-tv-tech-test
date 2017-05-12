@@ -18,7 +18,7 @@ class Printer
       end
 
       result << output_separator
-      result << "Total: $#{'%.2f' % order.total_cost}"
+      result << "Total: $#{format('%.2f', order.total_cost)}"
       result << discount.bulk_discount_message
       result << discount.multiple_express_discount_message
     end.compact.join("\n")
@@ -30,7 +30,7 @@ class Printer
     result << [
       broadcaster.name.ljust(COLUMNS[:broadcaster]),
       delivery.name.to_s.ljust(COLUMNS[:delivery]),
-      ("$#{'%.2f' % delivery.price}").ljust(COLUMNS[:price])
+      ("$#{format('%.2f', delivery.price)}").ljust(COLUMNS[:price])
     ].join(' | ')
   end
 
