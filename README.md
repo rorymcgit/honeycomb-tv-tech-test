@@ -4,7 +4,7 @@
 
 - Clone this repo
 - Run `bundle` to install dependencies
-- Run `ruby run.rb`
+- Run `ruby run.rb` to create an order and have it printed to the terminal
 
 To run tests:
 - Run `rspec`
