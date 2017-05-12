@@ -23,9 +23,10 @@ After reading the spec several times, following the flow of the existing code, p
 - There should be information on the invoice output detailing what discounts, if any, were applied
 
 ### My Solution
+
 The Discount class I created can be instantiated with variable discount parameters. These will default to the current discount’s parameters but can be overridden by providing arguments on instantiation. They may also be changed after Discount’s instantiation, and after Order has been instantiated with Discount by reassigning `order.discount.<discount_parameter>` to the new figure.  
 
-#### API
+### API
 
 To create an order, a discount must first be instantiated. If no arguments are provided on instantiation, the default parameters are used.
 The arguments should be provided in the following order:  
