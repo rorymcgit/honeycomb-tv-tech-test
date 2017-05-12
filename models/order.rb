@@ -16,7 +16,11 @@ class Order
   end
 
   def total_cost
-    discount.eligible_for_bulk_discount?(subtotal) ? discount.reduce_total_price(subtotal) : subtotal
+    if discount.eligible_for_bulk_discount?(subtotal)
+      discount.reduce_total_price(subtotal)
+    else
+      subtotal
+    end
   end
 
   def output(printer = Printer.new)
@@ -30,6 +34,6 @@ class Order
   end
 
   def multiple_deliveries?(delivery_type)
-    items.count { |(_, delivery)| delivery.name == delivery_type } > 1
+    items.count { |(_, delivery)| delivery.name == delivery_type } > discount.multiple_delivery_threshold
   end
 end

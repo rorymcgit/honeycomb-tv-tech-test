@@ -2,14 +2,14 @@
 
 ## The challenge
 
-We have a system that delivers advertising materials to broadcasters. 
+We have a system that delivers advertising materials to broadcasters.
 
 Advertising Material is uniquely identified by a 'Clock' number e.g.
 
 * `WNP/SWCL001/010`
 * `ZDW/EOWW005/010`
 
-Our sales team have some new promotions they want to offer so 
+Our sales team have some new promotions they want to offer so
 we need to introduce a mechanism for applying Discounts to orders.
 
 Promotions like this can and will change over time so we need the solution to be flexible.

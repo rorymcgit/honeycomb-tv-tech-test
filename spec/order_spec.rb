@@ -14,6 +14,7 @@ describe Order do
     allow(standard_delivery).to receive(:name) { :standard }
     allow(standard_delivery).to receive(:price) { 10 }
     allow(discount).to receive(:eligible_for_bulk_discount?) { false }
+    allow(discount).to receive(:multiple_delivery_threshold) { 1 }
   end
 
   context 'empty' do
