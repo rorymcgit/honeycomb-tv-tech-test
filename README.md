@@ -37,7 +37,7 @@ The arguments should be provided in the following order:
 `material = Material.new('WNP/SWCL001/010')`  
 `discount = Discount.new`  
 `order = Order.new(material, discount)`  
-  
+
 For a custom discount:  
 `crazy_discount = Discount.new(20, 50, 1, 12)`  
 As above, the discount instance is passed into the instantiation of Order as its second argument.  
@@ -45,15 +45,19 @@ As above, the discount instance is passed into the instantiation of Order as its
 
 
 When an express delivery is added to the order, the order delegates to the Discount class to evaluate the eligibility for the multiple express delivery discount.  
-  
+
 When total_cost is called, the order asks the Discount class to evaluate its eligibility for a bulk discount.  
-  
+
 When output is called, a new instance of the Printer class is injected, which takes some responsibility away from the Order class.  
+
+### Examples
+![](https://github.com/rorymcgit/honeycomb-tv-tech-test/blob/master/eg_WNP-SWCL001-010.png)
+![](https://github.com/rorymcgit/honeycomb-tv-tech-test/blob/master/eg_ZDW-EOWW005-010.png)
 
 
 ### Other Thoughts
 I focussed on reusability, for example the method checking for multiple_deliveries can be used to check for multiples of any kind of delivery.  
-  
+
 I considered putting a guard clause on the add method to prevent duplication of a broadcaster, however I felt that this was off spec.  
 
 
