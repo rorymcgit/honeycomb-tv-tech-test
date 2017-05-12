@@ -29,17 +29,17 @@ The Discount class I created can be instantiated with variable discount paramete
 ### API
 
 To create an order, a discount must first be instantiated. If no arguments are provided on instantiation, the default parameters are used.
-The arguments should be provided in the following order:  
-    - bulk discount threshold  
-    - bulk reduction percentage  
-    - multiple delivery threshold  
-    - discounted express price
 
 `material = Material.new('WNP/SWCL001/010')`  
 `discount = Discount.new`  
 `order = Order.new(material, discount)`  
 
-For a custom discount:  
+For a custom discount, the arguments should be provided in the following order:  
+    - bulk discount threshold  
+    - bulk reduction percentage  
+    - multiple delivery threshold  
+    - discounted express price  
+      
 `big_discount = Discount.new(20, 50, 1, 12)`  
 As above, the discount instance is passed into the instantiation of Order as its second argument.  
 `big_discounted_order = Order.new(material, big_discount)`  
