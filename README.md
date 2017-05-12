@@ -62,7 +62,7 @@ I considered putting a guard clause on the add method to prevent duplication of 
 
 
 
-# CHALLENGE INSTRUCTIONS
+# INSTRUCTIONS
 ## The challenge
 
 We have a system that delivers advertising materials to broadcasters.
