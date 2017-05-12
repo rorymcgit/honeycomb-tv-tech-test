@@ -19,13 +19,13 @@ After reading the spec several times, following the flow of the existing code, p
   - The percentage reduction a bulk discount provides: `10%`
   - How many deliveries provides a reduction in the express delivery price: `>1`
   - What price to thereby reduce the express delivery to: `$15`
-- The initial express delivery price must be altered when a second one is added
+- The price of the express delivery already added to the order must be altered when a second one is added
 - There should be information on the invoice output detailing what discounts, if any, were applied
 
 ### My Solution
 The Discount class I created can be instantiated with variable discount parameters. In my approach these default to the given discount’s parameters but can be overridden by providing arguments on initialise. They may also be changed after Discount’s instantiation, and after Order has been instantiated with Discount by reassigning `order.discount.<discount_parameter>` to the new figure.  
 
-### API
+#### API
 
 To create an order, a discount must first be instantiated. If no arguments are provided on instantiation, the default parameters are used.
 The arguments should be provided in the following order:  
@@ -44,20 +44,17 @@ As above, the discount instance is passed into the instantiation of Order as its
 `crazy_discounted_order = Order.new(material, crazy_discount)`  
 
 
-When an express delivery is added to the order, the order delegates to the Discount class to evaluate the eligibility for the multiple express delivery discount.
-
-When total_cost is called, the order asks the Discount class to evaluate its eligibility for a bulk discount.
-
-When output is called, a new instance of the Printer class is injected, which takes some responsibility away from the Order class.
-
-
-
+When an express delivery is added to the order, the order delegates to the Discount class to evaluate the eligibility for the multiple express delivery discount.  
+  
+When total_cost is called, the order asks the Discount class to evaluate its eligibility for a bulk discount.  
+  
+When output is called, a new instance of the Printer class is injected, which takes some responsibility away from the Order class.  
 
 
 ### Other Thoughts
-I focussed on reusability, for example the method checking for multiple_deliveries can be used to check for multiples of any kind of delivery.
-
-I considered putting a guard clause on the add method to prevent duplication of a broadcaster, however I felt that this was off spec.
+I focussed on reusability, for example the method checking for multiple_deliveries can be used to check for multiples of any kind of delivery.  
+  
+I considered putting a guard clause on the add method to prevent duplication of a broadcaster, however I felt that this was off spec.  
 
 
 
