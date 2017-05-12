@@ -3,7 +3,7 @@
 ### Instructions for Use
 
 - Clone this repo
-- Using Bundler, run `bundle` to install dependencies
+- Run `bundle` to install dependencies
 - Run `ruby run.rb`
 
 To run tests:
@@ -17,32 +17,31 @@ After reading the spec several times, following the flow of the existing code, p
 - There are 4 discount parameters:
   - Bulk discount threshold: `$30`
   - The percentage reduction a bulk discount provides: `10%`
-  - How many deliveries provides a reduction in the express delivery price: `>1`
+  - How many deliveries provide a reduction in the express delivery price: `>1`
   - What price to thereby reduce the express delivery to: `$15`
 - The price of the express delivery already added to the order must be altered when a second one is added
 - There should be information on the invoice output detailing what discounts, if any, were applied
 
 ### My Solution
-The Discount class I created can be instantiated with variable discount parameters. In my approach these default to the given discount’s parameters but can be overridden by providing arguments on initialise. They may also be changed after Discount’s instantiation, and after Order has been instantiated with Discount by reassigning `order.discount.<discount_parameter>` to the new figure.  
+The Discount class I created can be instantiated with variable discount parameters. These will default to the current discount’s parameters but can be overridden by providing arguments on instantiation. They may also be changed after Discount’s instantiation, and after Order has been instantiated with Discount by reassigning `order.discount.<discount_parameter>` to the new figure.  
 
 #### API
 
 To create an order, a discount must first be instantiated. If no arguments are provided on instantiation, the default parameters are used.
 The arguments should be provided in the following order:  
-    - bulk_threshold  
-    - bulk_reduction_pct  
-    - multiple_delivery_threshold  
-    - express_discount_price
+    - bulk discount threshold  
+    - bulk reduction percentage  
+    - multiple delivery threshold  
+    - discounted express price
 
 `material = Material.new('WNP/SWCL001/010')`  
 `discount = Discount.new`  
 `order = Order.new(material, discount)`  
 
 For a custom discount:  
-`crazy_discount = Discount.new(20, 50, 1, 12)`  
+`big_discount = Discount.new(20, 50, 1, 12)`  
 As above, the discount instance is passed into the instantiation of Order as its second argument.  
-`crazy_discounted_order = Order.new(material, crazy_discount)`  
-
+`big_discounted_order = Order.new(material, big_discount)`  
 
 When an express delivery is added to the order, the order delegates to the Discount class to evaluate the eligibility for the multiple express delivery discount.  
 
@@ -60,6 +59,7 @@ I focussed on reusability, for example the method checking for multiple_deliveri
 
 I considered putting a guard clause on the add method to prevent duplication of a broadcaster, however I felt that this was off spec.  
 
+I understand I have set the bulk discount threshold to be over $30 and not "$30 or over". I followed the spec's wording literally in this case.
 
 
 # INSTRUCTIONS
