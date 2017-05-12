@@ -62,8 +62,9 @@ I considered putting a guard clause on the add method to prevent duplication of 
 
 I understand I have set the bulk discount threshold to be over $30 and not "$30 or over". I followed the spec's wording literally in this case.
 
+---
+---
 
-# INSTRUCTIONS
 ## The challenge
 
 We have a system that delivers advertising materials to broadcasters.
