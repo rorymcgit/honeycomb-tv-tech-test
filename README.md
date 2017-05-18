@@ -17,28 +17,29 @@ After reading the spec several times, following the flow of the existing code, p
 - There are 4 discount parameters:
   - Bulk discount threshold: `$30`
   - The percentage reduction a bulk discount provides: `10%`
-  - How many deliveries provide a reduction in the express delivery price: `>1`
+  - What number of deliveries will provide a reduction in the express delivery price: `>1`
   - What price to thereby reduce the express delivery to: `$15`
 - The price of the express delivery already added to the order must be altered when a second one is added
 - There should be information on the invoice output detailing what discounts, if any, were applied
 
 ### My Solution
+
 The Discount class I created can be instantiated with variable discount parameters. These will default to the current discount’s parameters but can be overridden by providing arguments on instantiation. They may also be changed after Discount’s instantiation, and after Order has been instantiated with Discount by reassigning `order.discount.<discount_parameter>` to the new figure.  
 
-#### API
+### API
 
 To create an order, a discount must first be instantiated. If no arguments are provided on instantiation, the default parameters are used.
-The arguments should be provided in the following order:  
-    - bulk discount threshold  
-    - bulk reduction percentage  
-    - multiple delivery threshold  
-    - discounted express price
 
 `material = Material.new('WNP/SWCL001/010')`  
 `discount = Discount.new`  
 `order = Order.new(material, discount)`  
 
-For a custom discount:  
+For a custom discount, the arguments should be provided in the following order:  
+    - bulk discount threshold  
+    - bulk reduction percentage  
+    - multiple delivery threshold  
+    - discounted express price  
+      
 `big_discount = Discount.new(20, 50, 1, 12)`  
 As above, the discount instance is passed into the instantiation of Order as its second argument.  
 `big_discounted_order = Order.new(material, big_discount)`  
@@ -59,10 +60,11 @@ I focussed on reusability, for example the method checking for multiple_deliveri
 
 I considered putting a guard clause on the add method to prevent duplication of a broadcaster, however I felt that this was off spec.  
 
-I understand I have set the bulk discount threshold to be over $30 and not "$30 or over". I followed the spec's wording literally in this case.
+I understand I have set the bulk discount threshold to be >$30 and not >=$30. I followed the spec's wording literally in this case.
 
+---
+---
 
-# INSTRUCTIONS
 ## The challenge
 
 We have a system that delivers advertising materials to broadcasters.
