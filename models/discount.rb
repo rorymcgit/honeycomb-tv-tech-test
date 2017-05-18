@@ -18,12 +18,16 @@ class Discount
 
   def reduce_total_price(cost)
     @bulk_discount_applied = true
-    cost * (1 - bulk_reduction_pct)
+    is_july? ? cost * (1 - bulk_reduction_pct * 2) : cost * (1 - bulk_reduction_pct)
   end
 
   def reduce_express_price(delivery)
     @express_delivery_discounted = true
     delivery.price = express_discount_price if delivery.name == :express
+  end
+
+  def is_july?
+    Time.now.month == 7
   end
 
   def bulk_discount_message
